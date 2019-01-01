@@ -4,6 +4,10 @@ public class Queen extends Ant {
 
     private int timeTillMating = 0;
 
+    public Queen(Colony colony) {
+        super(colony);
+    }
+
     @Override
     public void setFirstPosition() {
         super.setX(0);
@@ -11,8 +15,14 @@ public class Queen extends Ant {
     }
 
     @Override
+    public void setName() {
+        setName("Queen");
+    }
+
+    @Override
     public void move() {
         if (timeTillMating > 0) {
+            System.out.println("queen time till mating: " + timeTillMating);
             timeTillMating--;
         }
     }

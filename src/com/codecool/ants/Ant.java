@@ -4,18 +4,14 @@ public abstract class Ant {
 
     private int x;
     private int y;
-
+    private String name;
     private Colony colony;
-
-    public Ant() {
-        colony = new Colony();
-    }
 
     public Ant(Colony colony) {
         this.colony = colony;
         setFirstPosition();
+        setName();
     }
-
 
     public abstract void setFirstPosition();
 
@@ -50,6 +46,16 @@ public abstract class Ant {
     public int distanceToQueen() {
         return x + y;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public abstract void setName();
 
     public abstract void move();
 

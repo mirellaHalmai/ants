@@ -12,30 +12,48 @@ public class Colony {
     private List<Ant> allAnts = new ArrayList<>();
 
     private int time = 0;
-    private int colonyBoundary = 100;
+    private int colonyBoundary;
 
     public Colony() {
-        queen = new Queen();
-        for (int i = 0; i < 10; i++) {
-            Worker worker = new Worker();
-            workers.add(worker);
-            if (i < 5) {
-                Soldier soldier = new Soldier();
+        this(20, 10, 5, 100);
+    }
+
+
+    public Colony(int colonyBoundary) {
+        this(20, 10, 5, colonyBoundary);
+
+    }
+
+    public Colony(int numberOfWorkers, int numberOfSoldiers, int numberOfDrones) {
+        this(numberOfWorkers, numberOfSoldiers, numberOfDrones, 100);
+
+    }
+
+    public Colony(int numberOfWorkers, int numberOfSoldiers, int numberOfDrones, int colonyBoundary) {
+        this.colonyBoundary = Math.max(colonyBoundary, 4);
+        queen = new Queen(this);
+        int maxNumber = Math.max(Math.max(numberOfWorkers, numberOfSoldiers), numberOfDrones);
+        for (int i = 0; i < maxNumber; i++) {
+            if (i < numberOfWorkers) {
+                Worker worker = new Worker(this);
+                workers.add(worker);
+                System.out.println(worker.getName() + " " + worker.getX() + " " + worker.getY());
+            }
+            if (i < numberOfSoldiers) {
+                Soldier soldier = new Soldier(this);
                 soldiers.add(soldier);
-                if (i < 4) {
-                    Drone drone = new Drone();
-                    drones.add(drone);
-                }
+                System.out.println(soldier.getName() + " " + soldier.getX() + " " + soldier.getY());
+            }
+            if (i < numberOfDrones) {
+                Drone drone = new Drone(this);
+                drones.add(drone);
+                System.out.println(drone.getName() + " " + drone.getX() + " " + drone.getY());
             }
         }
         allAnts.add(queen);
         allAnts.addAll(workers);
         allAnts.addAll(soldiers);
         allAnts.addAll(drones);
-    }
-
-    public Colony(int colonyBoundary) {
-        this.colonyBoundary = colonyBoundary;
     }
 
     public int getTime() {
@@ -54,6 +72,7 @@ public class Colony {
         for (Ant ant : allAnts
              ) {
             ant.move();
+            System.out.println(ant.getName() + " " + ant.getX() + " " + ant.getY());
         }
         time++;
     }
